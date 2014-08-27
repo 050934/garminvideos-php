@@ -1,16 +1,17 @@
 <?php
-   
-?>
+/**
+ * This makes our life easier when dealing with paths. Everything is relative
+ * to the application root now.
+ */
+chdir(__DIR__ . "/zf2/");
 
-<head>
-<style>
-body{
-margin: 0px;
+// Decline static file requests back to the PHP built-in webserver
+if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) {
+    return false;
 }
-</style>
-</head>
-<body>
-<iframe border="0" frameborder="0" marginwidth="0" marginheight="0" width="100%" height="100%" src="http://man.jcloud.com/appengine/jae/hello.html">
-</iframe>
-</body>
-</html>
+
+// Setup autoloading
+require 'init_autoloader.php';
+
+// Run the application!
+Zend\Mvc\Application::init(require 'config/application.config.php')->run();

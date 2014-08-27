@@ -20,6 +20,6 @@ class IndexController extends AbstractActionController
 	
 	public function indexAction()
 	{
-		
+		return $this->layout("garmin-videos/index/index.phtml");
 	}
 }

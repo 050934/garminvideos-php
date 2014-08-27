@@ -1,0 +1,132 @@
+<div class="grmn-section-container" style="z-index: 2; min-height: 300px;">
+	<div class="grmn-uix-expander grmn-uix-expander-collapsed">
+		<h3 class="branded-page-module-title">
+			{% if frommail %}
+			New videos
+			{% else %}
+			More videos<span style="font-weight: normal; font-size: 14px;">({{totals}})</span>
+			<span id="category_container"
+			data-baseurl={{baseurl}} data-youtube="{% if youtube %}youtube{% endif %}" data-qs={{qs_nocat}}>
+				<span {% if catui != '2' %}style="display: none;"{% endif %}>
+					by 
+					<select id="category_by" >
+						<option value="" {% if category == 'all' %}selected{% endif %}>All</option>
+						<option value="garmin" {% if category == 'garmin' %}selected{% endif %}>Garmin</option>
+						<option value="ted" {% if category == 'ted' %}selected{% endif %}>TED</option>
+						<option value="famous" {% if category == 'famous' %}selected{% endif %}>Famous</option>
+						<option value="others" {% if category == 'others' %}selected{% endif %}>Others</option>
+					</select>									
+				</span>
+				<span {% if catui != '1' %}style="display: none;"{% endif %}>
+					<span class="grmn-video-category {% if category == 'all' %}grmn-video-category-checked{% endif %}" title="all" style="margin-left: 0px;">
+						<input type="radio" name="category" value="" {% if category == 'all' %}checked{% endif %}/> All
+					</span>
+					<span class="grmn-video-category {% if category == 'garmin' %}grmn-video-category-checked{% endif %}" title="garmin">
+						<input type="radio" name="category" value="garmin" {% if category == 'garmin' %}checked{% endif %}/> Garmin
+					</span>
+					<span class="grmn-video-category {% if category == 'ted' %}grmn-video-category-checked{% endif %}" title="ted">
+						<input type="radio" name="category" value="ted" {% if category == 'ted' %}checked{% endif %}/> TED
+					</span>
+					<span class="grmn-video-category {% if category == 'famous' %}grmn-video-category-checked{% endif %}" title="famous">
+						<input type="radio" name="category" value="famous" {% if category == 'famous' %}checked{% endif %} /> Famous
+					</span>
+					<span class="grmn-video-category {% if category == 'others' %}grmn-video-category-checked{% endif %}" title="others">
+						<input type="radio" name="category" value="others" {% if category == 'others' %}checked{% endif %}/> Others
+					</span>										
+				</span>							
+			</span>
+			{% endif %}
+		</h3>		
+
+	  	<ul class="shelf-content clearfix grmn-uix-expander-body">
+		  {% if videoitems %}
+		  	{% for item in videoitems %}
+		  	<li class="grmn-shelf-grid-item">
+		  		<div class="grmn-lockup-thumbnail" {% if item.watched %}style="opacity: 0.5; filter: alpha(opacity=50);"{% endif %}>
+			        {% if item.isnew and not item.watched %}
+			        <span class="grmn-video-new"></span>
+			        {% endif %}
+			        <a target="_blank" href="{{baseurl}}watch?v={{item.videoid}}{% if youtube %}&youtube{% endif %}" 
+			        	title="{{item.title}}" 
+			        	class="ux-thumb-wrap grmn-uix-sessionlink grmn-fluid-thumb-link contains-addto  spf-link">
+			        	<span class="video-thumb  grmn-thumb grmn-thumb-175 grmn-thumb-fluid">
+					      <span class="grmn-thumb-default">
+					        <span class="grmn-thumb-clip">
+					        	{% if youtube %}
+					      		<img alt="thumbnail" src="{{item.thumb}}" data-thumb="{{item.thumb}}" width="175">
+					          	<span class="vertical-align"></span>
+					        	{% else %}
+					      		<img alt="thumbnail" src="{{baseurl}}static/images/{{item.local_thumb}}" data-thumb="{{item.local_thumb}}" width="175">
+					        	{% endif %}
+					        </span>
+					      </span>
+					    </span>
+					    <span class="video-time">{{item.duration}}</span>
+					</a>
+			    </div>
+				<div class="grmn-lockup-content">
+					<h3 class="grmn-lockup-title" {% if item.watched %}style="opacity: 0.5; filter: alpha(opacity=50);"{% endif %}>
+						<a target="_blank" title="{{item.title}}" href="{{baseurl}}watch?v={{item.videoid}}{% if youtube %}&youtube{% endif %}" dir="ltr">
+						{{item.title}}
+						</a>
+					</h3>
+				</div>
+				<div class="grmn-lockup-meta">
+				    <ul class="grmn-lockup-meta-info">
+				        <li>
+							Author: <span class="grmn-meta-info-by">{{item.by}}</span>
+				        </li>
+				      	<li>
+				      		<span class="grmn-meta-info-clkcount">{{item.clkcount}}</span> Clicks
+				      	</li>
+				      	<li>
+				      		<span class="grmn-meta-info-viewcount">{{item.local_viewcount}}</span> Views
+				      	</li>											      	
+				        <li class="grmn-lockup-deemphasized-text">
+				        	Upload: {{item.created_at|slice:"0:10"}}
+				        </li>
+				    </ul>
+				</div>
+			</li>
+		    {% endfor %}
+		    {% else %}
+		    <li>
+		    	<p style="text-align: center;">No videos
+		    		<span style="display: none;">, you may go <a href="{{baseurl}}static/html/videoupload.html" title="Video upload">video upload</a> page to upload YouTube videos</span>
+		    	</p>
+		    </li>
+		   {% endif %}
+	  	</ul>
+        <div class="grmn-uix-expander-head hidden-expander grmn-uix-page">
+        	{% if first %}
+        		<span class="grmn-uix-page-num">
+      				<a title="First page" href="{{baseurl}}page/{{first}}/{% if qs %}{{qs}}{% endif %}">&lt;&lt;</a>
+      			</span>
+        	{% endif %}
+        	{% if pre %}
+          	<span class="multirow-shelf-expander grmn-uix-page-num">
+          		<a title="Previous page" href="{{baseurl}}page/{{pre}}/{% if qs %}{{qs}}{% endif %}">&lt;</a>
+          	</span>
+          	{% endif %}
+      		{% for i in pagecountlist %}
+      			{% if i != pagenum %}
+      			<span class="grmn-uix-page-num">
+      				<a title="{{i}}" href="{{baseurl}}page/{{i}}/{% if qs %}{{qs}}{% endif %}">{{i}}</a>
+      			</span>
+      			{% else %}
+      			<span class="grmn-uix-page-num grmn-uix-page-current">{{i}}</span>
+      			{% endif %}
+      		{% endfor %}
+          	{%if next %}
+			<span class="multirow-shelf-collapser grmn-uix-page-num">
+				<a title="Next page" href="{{baseurl}}page/{{next}}/{% if qs %}{{qs}}{% endif %}">&gt;</a>
+			</span>							          	
+          	{% endif %}
+        	{% if last %}
+        		<span class="grmn-uix-page-num">
+      				<a title="Last page" href="{{baseurl}}page/{{last}}/{% if qs %}{{qs}}{% endif %}">&gt;&gt;</a>
+      			</span>
+        	{% endif %}							          	
+        </div>
+  	</div>
+</div>

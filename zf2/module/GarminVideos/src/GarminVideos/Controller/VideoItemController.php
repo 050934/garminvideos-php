@@ -157,7 +157,7 @@ class VideoItemController extends AbstractActionController
 		/**
 		 * @see http://php.net/manual/zh/function.preg-match.php
 		 */
-		if(preg_match("/\d+/", $vid))
+		if(preg_match(sprintf("/\d{%d}/", strlen($vid)), $vid))
 			$vid = (int)$vid;
 		return $vid;
 	}

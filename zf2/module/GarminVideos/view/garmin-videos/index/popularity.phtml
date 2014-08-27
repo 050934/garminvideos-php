@@ -1,0 +1,46 @@
+<div class="grmn-section-container" id="pop_item_container" data-baseurl={{baseurl}}
+data-youtube="{% if youtube %}youtube{% endif %}">
+	<h3 class="branded-page-module-title">Popular videos</h3>
+	<div style="position: absolute; left: 140px; top: 12px;">
+		 by
+		<select id="pop_by">
+			<option value="" {% if not pop_by %}selected{% endif %}>all-time</option>
+			<option value="week" {% if pop_by == 'week' %}selected{% endif %}>week</option>
+			<option value="month" {% if pop_by == 'month' %}selected{% endif %}>month</option>
+			<option value="year" {% if pop_by == 'year' %}selected{% endif %}>year</option>
+		</select> by
+		<select id="pop_orderby">
+			<option value="click" {% if orderby == 'click' %}selected{% endif %}>click</option>
+			<option value="view" {% if orderby == 'view' %}selected{% endif %}>view</option>
+		</select>
+	</div>
+	<ul class="shelf-content clearfix grmn-uix-expander-body">
+		{% if popvideoitems %}
+		<li>
+			<table style="width: 350px; padding-left: 2px;">
+				<tr class="pop-item">
+					<th>Ranking</th><th>Title</th><th>{% if orderby == 'click' %}Clicks{% elif orderby == 'view' %}Views{%endif%}</th>
+				</tr>
+				{% for video in popvideoitems %}
+				<tr class="pop-item">
+					<td {% if forloop.counter|add:rankoffset == 1 %}class="num num1"
+					{% elif forloop.counter|add:rankoffset == 2 %}class="num num2"
+					{% elif forloop.counter|add:rankoffset == 3 %}class="num num3"{% endif %}>
+						{{ forloop.counter|add:rankoffset }}
+					</td>
+					<td>
+						<a href="{{baseurl}}watch?v={{video.videoid}}{% if youtube %}&youtube{% endif %}"
+						title="{{video.title}}" target="_blank">
+							{{video.title}}
+						</a>						
+					</td>
+					<td>{{video.hot}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</li>
+		{% else %}
+		<li style="padding-left: 5px;">No videos</li>
+		{% endif %}
+	</ul>
+</div>

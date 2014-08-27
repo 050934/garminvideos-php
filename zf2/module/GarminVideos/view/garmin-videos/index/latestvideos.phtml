@@ -1,0 +1,117 @@
+<div class="grmn-section-container">
+	<div class="grmn-uix-expander grmn-uix-expander-collapsed">
+		<h3 class="branded-page-module-title">Latest videos</h3>
+		{% if latestvideoitems %}
+		<ul class="shelf-content clearfix grmn-uix-expander-body" id="video_stage">
+			{% for item in latestvideoitems %}
+			<li class="grmn-shelf-grid-item1">
+		  		<div class="grmn-lockup-thumbnail" {% if item.watched %}style="opacity: 0.5; filter: alpha(opacity=50);"{% endif %}>
+			        {% if item.isnew and not item.watched %}
+			        <span class="grmn-video-new"></span>
+			        {% endif %}
+			        <a target="_blank" href="{{baseurl}}watch?v={{item.videoid}}{% if youtube %}&youtube{% endif %}" 
+			        	title="{{item.title}}" 
+			        	class="ux-thumb-wrap">
+			        	<span class="video-thumb  grmn-thumb">
+					      <span class="grmn-thumb-default">
+					        <span class="grmn-thumb-clip">
+					        	{% if youtube %}
+					      		<img alt="thumbnail" src="{{item.thumb}}" data-thumb="{{item.thumb}}" width="400" height="260">
+					          	<span class="vertical-align"></span>
+					        	{% else %}
+					      		<img alt="thumbnail" src="static/images/{{item.local_thumb}}" data-thumb="{{item.local_thumb}}" width="400" height="260">
+					        	{% endif %}
+					        </span>
+					      </span>
+					    </span>
+					</a>
+			    </div>
+				<div class="grmn-lockup-content">
+					<h3 class="grmn-lockup-title" {% if item.watched %}style="opacity: 0.5; filter: alpha(opacity=50);"{% endif %}>
+						<a target="_blank" title="{{item.title}}" href="watch?v={{item.videoid}}{% if youtube %}&youtube{% endif %}" dir="ltr">
+						{{item.title}}
+						</a>
+					</h3>
+				</div>
+				<div class="grmn-lockup-meta">
+				    <ul class="grmn-lockup-meta-info">
+				        <li class="grmn-lockup-deemphasized-text">
+				        	Upload: {{item.created_at|slice:"0:10"}}
+				        </li>
+				    </ul>
+				</div>			    	        							
+			</li>
+			{% endfor %}
+		</ul>
+		<div id="latest_first">
+			{% if latestvideoitems.0 %}
+		  		<div class="grmn-lockup-thumbnail latest" {% if latestvideoitems.0.watched %}style="opacity: 0.5; filter: alpha(opacity=50);"{% endif %}>
+			        {% if latestvideoitems.0.isnew and not latestvideoitems.0.watched %}
+			        <span class="grmn-video-new"></span>
+			        {% endif %}
+			        <a target="_blank" href="watch?v={{latestvideoitems.0.videoid}}{% if youtube %}&youtube{% endif %}" 
+			        	title="{{latestvideoitems.0.title}}" 
+			        	class="ux-thumb-wrap">
+			        	<span class="video-thumb  grmn-thumb">
+					      <span class="grmn-thumb-default">
+					        <span class="grmn-thumb-clip">
+					        	{% if youtube %}
+					      		<img alt="thumbnail" src="{{latestvideoitems.0.thumb}}" data-thumb="{{latestvideoitems.0.thumb}}" width="400" height="260">
+					          	<span class="vertical-align"></span>
+					        	{% else %}
+					      		<img alt="thumbnail" src="static/images/{{latestvideoitems.0.local_thumb}}" data-thumb="{{latestvideoitems.0.local_thumb}}" width="400" height="260">
+					        	{% endif %}
+					        </span>
+					      </span>
+					    </span>
+					</a>
+			    </div>
+				<div class="grmn-lockup-content">
+					<h3 class="grmn-lockup-title" {% if latestvideoitems.0.watched %}style="opacity: 0.5; filter: alpha(opacity=50);"{% endif %}>
+						<a target="_blank" title="{{latestvideoitems.0.title}}" href="watch?v={{latestvideoitems.0.videoid}}{% if youtube %}&youtube{% endif %}" dir="ltr">
+						{{latestvideoitems.0.title}}
+						</a>
+					</h3>
+				</div>
+				<div class="grmn-lockup-meta">
+				    <ul class="grmn-lockup-meta-info">
+				        <li class="grmn-lockup-deemphasized-text">
+				        	Upload: {{latestvideoitems.0.created_at|slice:"0:10"}}
+				        </li>
+				    </ul>
+				</div>				
+			{% endif %}			
+		</div>
+		{% else %}<div style="padding-left: 5px;">No videos</div>
+		{% endif %}
+		<ul class="shelf-content clearfix grmn-uix-expander-body" id="video_back_stage">
+			{% if latestvideoitems %}
+				{% for item in latestvideoitems %}
+				<li class="grmn-shelf-grid-item latest">
+			  		<div class="grmn-lockup-thumbnail latest" {% if item.watched %}style="opacity: 0.5; filter: alpha(opacity=50);"{% endif %}>
+				        {% if item.isnew and not item.watched %}
+				        <span class="grmn-video-new"></span>
+				        {% endif %}
+				        <a target="_blank" href="watch?v={{item.videoid}}{% if youtube %}&youtube{% endif %}" 
+				        	title="{{item.title}}" 
+				        	class="ux-thumb-wrap">
+				        	<span class="video-thumb  grmn-thumb">
+						      <span class="grmn-thumb-default">
+						        <span class="grmn-thumb-clip">
+						        	{% if youtube %}
+						      		<img alt="thumbnail" src="{{item.thumb}}" data-thumb="{{item.thumb}}" width="80">
+						          	<span class="vertical-align"></span>
+						        	{% else %}
+						      		<img alt="thumbnail" src="static/images/{{item.local_thumb}}" data-thumb="{{item.local_thumb}}" width="80">
+						        	{% endif %}
+						        </span>
+						      </span>
+						    </span>
+						</a>
+				    </div>	        							
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+</div>

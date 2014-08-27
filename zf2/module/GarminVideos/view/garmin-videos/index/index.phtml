@@ -10,13 +10,18 @@
 	<body>
 		<div style="text-align: center; font-weight: bold; font-size: 20px; margin: 10px 0;">
 			<a href="/garminvideos/" id="grmn_title" title="Garmin Video Sharing">Garmin Video Sharing</a>
-			{% if upload %}
+			<?php if(isset($_REQUEST["upload"])){?>
 			<a href="/garminvideos/static/html/videoupload.html" id="grmn_videodownloadlink" title="video upload page" target="_blank"> - Upload</a>			
-			{% endif %}
+			<?php }?>
 		</div>
 		<div style="width: 951px; margin: 0 auto 20px;">
 			<li class="">
 	        	<div class="shelf-wrapper">
+	        		<?php 
+	        		include 'latestvideos.phtml';
+	        		include 'popularity.phtml';
+	        		include 'morevideos.phtml';
+	        		?>
 	        	</div>
 			</li>
 		</div>
