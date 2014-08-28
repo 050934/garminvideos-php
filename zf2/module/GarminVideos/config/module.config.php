@@ -79,6 +79,19 @@ return array(
 													'may_terminate' => true
 											)
 										)
+									),
+									"page-list" => array(
+										"type" => "segment",
+										"options" => array(
+											"route" => "page/:pageNum[/]",
+											"constraints" => array(
+												"pageNum" => "\d+"
+											),
+											"defaults" => array(
+												"action" => "index",
+											)
+										),
+										"may_terminate" => true
 									)	
  								)
 						),

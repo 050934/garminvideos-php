@@ -8,6 +8,14 @@ class VideoItem implements \ArrayAccess
 	public $by;
 	public $author;
 	public $viewCount;
+	public $watched;
+	public $isNew;
+	public $createdAt;
+	public $thumb;
+	public $localThumb;
+	public $localViewCount;
+	public $clkCount;
+	public $duration;
 	
 	private $errTmpl = "Video property - \"%s\" ";
 	private $jsonKeys = array(
@@ -53,6 +61,12 @@ class VideoItem implements \ArrayAccess
 			$this->by = $data["by"];
 			$this->author = $data["author"];
 			$this->viewCount = (int)$data["viewcount"];
+			$this->createdAt = $data["created_at"];
+			$this->thumb = $data["thumb"];
+			$this->localThumb = $data["local_thumb"];
+			$this->localViewCount = (int)$data["local_viewcount"];
+			$this->clkCount = (int)$data["clkcount"];
+			$this->duration = $data["duration"];
 		}
 	}
 	
@@ -300,6 +314,7 @@ class LocalCategory
 				default:
 					throw new \InvalidArgumentException(sprintf("Category must be \"all|garmin|ted|famous|others\", \"%s\" given", $category));
 			}
+			return $category_;
 		}
 		else
 		{

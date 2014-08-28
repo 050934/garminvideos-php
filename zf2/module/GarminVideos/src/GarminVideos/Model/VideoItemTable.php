@@ -28,7 +28,7 @@ class VideoItemTable
 		if($category != LocalCategory::All)
 		{
 			$categorySql = sprintf("WHERE localcategory = '%s' ", $category);
-			$whereSql += $categorySql;
+			$whereSql .= $categorySql;
 		}
 		
 		if($excludeVideos)
@@ -47,9 +47,9 @@ class VideoItemTable
 			if (count($exSqlList) > 0)
 			{
 				if($whereSql)
-					$whereSql += " AND videoid NOT IN('" + join("', '", $exSqlList) + "')";
+					$whereSql .= (" AND videoid NOT IN('" . join("', '", $exSqlList) . "')");
 				else
-					$whereSql += "WHERE videoid NOT IN('" + join("', '", $exSqlList) + "')";
+					$whereSql .= ("WHERE videoid NOT IN('" . join("', '", $exSqlList) . "')");
 			}
 		}
 		
@@ -74,7 +74,6 @@ class VideoItemTable
 			$pageSize = $videoId;
 			$videoId = null;
 		}
-
 		if($videoId == null && is_int($pageSize) && is_int($pageNum))
 		{
 			$top = $pageSize * $pageNum;
@@ -101,7 +100,7 @@ class VideoItemTable
 			if($category != LocalCategory::All)
 			{
 				$categorySql = sprintf("WHERE localcategory = '%s' ", $category);
-				$whereSql += $categorySql;
+				$whereSql .= $categorySql;
 			}
 			
 			if($excludeVideos)
@@ -112,7 +111,7 @@ class VideoItemTable
 					if(is_string($video))
 						array_push($exSqlList, $video);
 					elseif ($video instanceof VideoItem)
-					array_push($exSqlList, $video->videoId);
+						array_push($exSqlList, $video->videoId);
 					else
 						continue;
 				}
@@ -120,14 +119,13 @@ class VideoItemTable
 				if (count($exSqlList) > 0)
 				{
 					if($whereSql)
-						$whereSql += " AND videoid NOT IN('" + join("', '", $exSqlList) + "')";
+						$whereSql .= (" AND videoid NOT IN('" . join("', '", $exSqlList) . "')");
 					else
-						$whereSql += "WHERE videoid NOT IN('" + join("', '", $exSqlList) + "')";
+						$whereSql .= ("WHERE videoid NOT IN('" . join("', '", $exSqlList) . "')");
 				}
 			}
 			
 			$sql = sprintf($sql, $whereSql);
-			
 		}
 		
 		if($videoId == null && is_int($pageSize) && is_int($pageNum))
@@ -136,7 +134,7 @@ class VideoItemTable
 		}
 		else
 		{
-			$sql += " ORDER BY created_at DESC";
+			$sql .= " ORDER BY created_at DESC";
 			$resultset = $this->tableGateway->getAdapter()->query($sql);
 		}
 		
