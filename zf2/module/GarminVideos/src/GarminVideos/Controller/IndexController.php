@@ -80,12 +80,13 @@ class IndexController extends AbstractActionController
 		try {
 			if(isset($_REQUEST["cat"]))
 			{
-				$category = LocalCategory::fromString($category);
+				$category = LocalCategory::fromString($_REQUEST["cat"]);
 				array_push($queryString, "cat=$category");
 			}
 		} catch (\Exception $e) {
 			$category = LocalCategory::All;
 		}
+		
 		$videoItems = $this->getVideoItemControllerImpl()
 				->getVideoItemTable()->getVideoItems($pageSize, $pageNum, null, $latestVideoItems, $category);
 		$totals = $this->getVideoItemControllerImpl()
@@ -105,28 +106,30 @@ class IndexController extends AbstractActionController
 		if(count($queryString) > 0)
 			$args["queryString"] = "?" . join("&", $queryString);
 		
-		if($pageCount <= 4)
-			$args["pageCountList"] = range(1, $pageCount);
-		else
-		{
-			if($pageCount - $pageNum <= 1)
-			{
-				foreach (range($pageCount - $display + 1, $pageCount) as $i)
-					array_push($args["pageCountList"], $i);
-			}
+		if($totals){
+			if($pageCount <= 4)
+				$args["pageCountList"] = range(1, $pageCount);
 			else
 			{
-				if($pageNum >= 2)
+				if($pageCount - $pageNum <= 1)
 				{
-					foreach (range(-1, $display - 2) as $i)
-						array_push($args["pageCountList"], $i + $pageNum);
+					foreach (range($pageCount - $display + 1, $pageCount) as $i)
+						array_push($args["pageCountList"], $i);
 				}
 				else
 				{
-					foreach (range(1, $display) as $i)
-						array_push($args["pageCountList"], $i);
+					if($pageNum >= 2)
+					{
+						foreach (range(-1, $display - 2) as $i)
+							array_push($args["pageCountList"], $i + $pageNum);
+					}
+					else
+					{
+						foreach (range(1, $display) as $i)
+							array_push($args["pageCountList"], $i);
+					}
+			
 				}
-
 			}
 		}
 		
@@ -138,6 +141,7 @@ class IndexController extends AbstractActionController
 			$args["pre"] = $pageNum - 1;
 		if($pageNum < $pageCount)
 			$args["next"] = $pageNum + 1;
+		
 		$tmpl = "garmin-videos/index/index.phtml";
 		$model = new ViewModel($args);
 		$model->setTemplate($tmpl);
